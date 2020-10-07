@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-
+import Task from "./components/Task";
+import CreateTask from "./components/CreateTask";
 import "./App.css";
 
 class App extends Component {
   state = {
+    newTask: "",
     todos: [
       { text: "learn reactJS" },
       { text: "learn NodeJS" },
@@ -20,24 +22,39 @@ class App extends Component {
     });
   };
 
+  updateNewTask = (event) => {
+    this.setState({
+      newTask: event.target.value,
+    });
+  };
+
+  addTask = () => {
+    const todos = [...this.state.todos];
+    todos.push({
+      text: this.state.newTask,
+    });
+    this.setState({
+      todos,
+      newTask: "",
+    });
+  };
   render() {
     return (
       <div className="App">
         {this.state.todos.map((todo, index) => (
-          <li key={index}>
-            {todo.text}
-            <button
-              onClick={() => {
-                this.completeTask(index);
-              }}
-            >
-              Done
-            </button>
-          </li>
+          <Task
+            todo={todo}
+            index={index}
+            completeTask={this.completeTask}
+            key={index}
+          />
         ))}
 
-        <input />
-        <button>Add Task</button>
+        <CreateTask
+          value={this.state.newTask}
+          onChange={this.updateNewTask}
+          addTask={this.addTask}
+        />
       </div>
     );
   }
