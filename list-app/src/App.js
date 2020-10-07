@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import "./App.css";
+
+class App extends Component {
+  state = {
+    todos: [
+      { text: "learn reactJS" },
+      { text: "learn NodeJS" },
+      { text: "learn vueJS" },
+      { text: "learn AngularJS" },
+    ],
+  };
+
+  completeTask = (index) => {
+    const todos = [...this.state.todos];
+    todos.splice(index, 1);
+    this.setState({
+      todos,
+    });
+  };
+
+  render() {
+    return (
+      <div className="App">
+        {this.state.todos.map((todo, index) => (
+          <li key={index}>
+            {todo.text}
+            <button
+              onClick={() => {
+                this.completeTask(index);
+              }}
+            >
+              Done
+            </button>
+          </li>
+        ))}
+
+        <input />
+        <button>Add Task</button>
+      </div>
+    );
+  }
 }
-
 export default App;
